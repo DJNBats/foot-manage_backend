@@ -12,3 +12,27 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Team {
+  id      String   @id @default(uuid())
+  name    String
+  city    String
+  founded DateTime?
+  players Player[]
+}
+
+model Player {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  position  Position
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+}
+
+enum Position {
+  GOALKEEPER
+  DEFENDER
+  MIDFIELDER
+  FORWARD
+}
