@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
+        "autoincrement",
+        "datasource",
         "datasources",
-        "Registre"
+        "nestjs",
+        "Registre",
+        "signin"
     ]
 }

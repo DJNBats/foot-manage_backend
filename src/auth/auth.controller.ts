@@ -4,11 +4,11 @@ import {
     Controller,
     HttpCode,
     HttpStatus,
-    Post,
-    Req,
+    Post
   } from '@nestjs/common';
-  import { AuthService } from './auth.service';
-  import { AuthDto } from './dto';
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto';
+ 
   
   @Controller('auth')
   export class AuthController {
