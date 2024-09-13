@@ -4,6 +4,9 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
+import { TeamModule } from './team/team.module';
+import { PlayerModule } from './player/player.module';
+import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -15,17 +18,11 @@ import { PrismaModule } from './prisma/prisma.module';
     UserModule,
     BookmarkModule,
     PrismaModule,
+    TeamModule, 
+    PlayerModule,
   ],
+  providers: [PrismaService],
 })
 export class AppModule {}
 
-import { Module } from '@nestjs/common';
-import { TeamModule } from './team/team.module';
-import { PlayerModule } from './player/player.module';
-import { PrismaService } from './prisma/prisma.service'; // Importe o PrismaService
-
-@Module({
-  imports: [TeamModule, PlayerModule],
-  providers: [PrismaService],  // Registre o PrismaService
-})
 
