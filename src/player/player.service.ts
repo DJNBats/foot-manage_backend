@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-//import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { Player, Position } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class PlayerService {
