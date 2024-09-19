@@ -1,17 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { PlayerService } from './player.service';
-import { Player, Position } from '@prisma/client';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Player, Position, Prisma } from '@prisma/client';
 
 @Controller('players')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Post()
-  async addPlayer(@Body() data: {
-    Prisma: any; firstName: string, lastName: string, position: Position
-}): Promise<Player> {
-    return this.playerService.createPlayer(data.firstName, data.lastName, data.position, data.Prisma.PlayerCreateInput);
+  async createPlayer(@Body() data: Prisma.PlayerCreateInput): Promise<Player>{
+    return this.playerService.createPlayer(data);
   }
 
   @Get()

@@ -7,7 +7,7 @@ import { Player, Prisma } from '@prisma/client';
 export class PlayerService {
   constructor(private prisma: PrismaService) {}
 
-  async createPlayer(firstName: string, lastName: string, position: string, data: Prisma.PlayerCreateInput): Promise<Player> {
+  async createPlayer(data: Prisma.PlayerCreateInput): Promise<Player> {
     return this.prisma.player.create({
       data,
     });

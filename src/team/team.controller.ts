@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { TeamService } from './team.service';
-import { Team } from '@prisma/client';
+import { Prisma, Team } from '@prisma/client';
 
 @Controller('teams')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
-  async createTeam(@Body() data: { name: string, city: string, founded?: Date }): Promise<Team> {
+  async createTeam(@Body() data: Prisma.TeamCreateInput): Promise<Team> {
     return this.teamService.createTeam(data);
   }
 
