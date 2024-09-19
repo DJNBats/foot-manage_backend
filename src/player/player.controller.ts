@@ -8,18 +8,20 @@ export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Post()
-  async addPlayer(@Body() data: { firstName: string, lastName: string, position: Position, teamId: string }): Promise<Player> {
-    return this.playerService.addPlayer(data);
+  async addPlayer(@Body() data: {
+    Prisma: any; firstName: string, lastName: string, position: Position
+}): Promise<Player> {
+    return this.playerService.createPlayer(data.firstName, data.lastName, data.position, data.Prisma.PlayerCreateInput);
   }
 
   @Get()
   async getPlayers(): Promise<Player[]> {
-    return this.playerService.getPlayers();
+    return this.playerService.getAllPlayers();
   }
 
-  @Get('team/:teamId')
-  async getPlayersByTeam(@Param('teamId') teamId: string): Promise<Player[]> {
-    return this.playerService.getPlayersByTeam(teamId);
+  @Get(':id')
+  async getPlayersByTeam(@Param('id') id: string): Promise<Player | null> {
+    return this.playerService.getPlayerById(id);
   }
 
   @Put(':id')

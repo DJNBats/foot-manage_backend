@@ -14,7 +14,7 @@ export class TeamController {
 
   @Get()
   async getTeams(): Promise<Team[]> {
-    return this.teamService.getTeams();
+    return this.teamService.getAllTeams();
   }
 
   @Get(':id')
