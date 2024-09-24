@@ -1,13 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Player, Prisma } from '@prisma/client';
+import { Player } from '@prisma/client';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @Injectable()
 export class PlayerService {
   constructor(private prisma: PrismaService) {}
 
-  async createPlayer(data: Prisma.PlayerCreateInput): Promise<Player> {
+  async createPlayer(data: CreatePlayerDto): Promise<Player> {
     return this.prisma.player.create({
       data,
     });
@@ -26,7 +28,7 @@ export class PlayerService {
   }
 
   // Método para atualizar um jogador por ID
-  async updatePlayer(id: string, data: Prisma.PlayerUpdateInput): Promise<Player> {
+  async updatePlayer(id: string, data: UpdatePlayerDto): Promise<Player> {
     return this.prisma.player.update({
       where: { id },
       data,

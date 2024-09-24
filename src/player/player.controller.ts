@@ -1,16 +1,18 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PlayerService } from './player.service';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Player, Position, Prisma } from '@prisma/client';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Player} from '@prisma/client';
 
 @Controller('players')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Post()
-  async createPlayer(@Body() data: Prisma.PlayerCreateInput): Promise<Player>{
-    return this.playerService.createPlayer(data);
+  @UsePipes(new ValidationPipe({ whitelist: true }))  // Adiciona a validação
+  async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
+    return this.playerService.createPlayer(createPlayerDto);
   }
 
   @Get()
@@ -19,13 +21,17 @@ export class PlayerController {
   }
 
   @Get(':id')
-  async getPlayersByTeam(@Param('id') id: string): Promise<Player | null> {
+  async getPlayerById(@Param('id') id: string): Promise<Player> {
     return this.playerService.getPlayerById(id);
   }
 
   @Put(':id')
-  async updatePlayer(@Param('id') id: string, @Body() data: { firstName?: string, lastName?: string, position?: Position }): Promise<Player> {
-    return this.playerService.updatePlayer(id, data);
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  async updatePlayer(
+    @Param('id') id: string,
+    @Body() updatePlayerDto: UpdatePlayerDto
+  ): Promise<Player> {
+    return this.playerService.updatePlayer(id, updatePlayerDto);
   }
 
   @Delete(':id')
