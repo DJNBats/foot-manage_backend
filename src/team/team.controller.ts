@@ -1,15 +1,18 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TeamService } from './team.service';
-import { Prisma, Team } from '@prisma/client';
+import { CreateTeamDto } from './dto/create-team.dto';
+import { UpdateTeamDto } from './dto/update-team.dto';
+import { Team } from '@prisma/client';
 
 @Controller('teams')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
-  async createTeam(@Body() data: Prisma.TeamCreateInput): Promise<Team> {
-    return this.teamService.createTeam(data);
+  @UsePipes(new ValidationPipe({ whitelist: true }))  // Validação ativa
+  async createTeam(@Body() createTeamDto: CreateTeamDto): Promise<Team> {
+    return this.teamService.createTeam(createTeamDto);
   }
 
   @Get()
@@ -18,13 +21,17 @@ export class TeamController {
   }
 
   @Get(':id')
-  async getTeam(@Param('id') id: string): Promise<Team> {
+  async getTeamById(@Param('id') id: string): Promise<Team> {
     return this.teamService.getTeamById(id);
   }
 
   @Put(':id')
-  async updateTeam(@Param('id') id: string, @Body() data: { name?: string, city?: string, founded?: Date }): Promise<Team> {
-    return this.teamService.updateTeam(id, data);
+  @UsePipes(new ValidationPipe({ whitelist: true }))  // Validação ativa
+  async updateTeam(
+    @Param('id') id: string,
+    @Body() updateTeamDto: UpdateTeamDto
+  ): Promise<Team> {
+    return this.teamService.updateTeam(id, updateTeamDto);
   }
 
   @Delete(':id')

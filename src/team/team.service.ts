@@ -1,14 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, Team } from '@prisma/client';
+import { Team } from '@prisma/client';
+import { CreateTeamDto } from './dto/create-team.dto';
+import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Injectable()
 export class TeamService {
   constructor(private prisma: PrismaService) {}
 
  // Método para criar um novo time
- async createTeam(data: Prisma.TeamCreateInput): Promise<Team> {
+ async createTeam(data: CreateTeamDto): Promise<Team> {
   return this.prisma.team.create({
     data,
   });
@@ -25,12 +27,11 @@ async getAllTeams(): Promise<Team[]> {
 async getTeamById(id: string): Promise<Team | null> {
   return this.prisma.team.findUnique({
     where: { id },
-    include: { players: true }, // Inclui os jogadores no resultado
   });
 }
 
 // Método para atualizar um time por ID
-async updateTeam(id: string, data: Prisma.TeamUpdateInput): Promise<Team> {
+async updateTeam(id: string, data: UpdateTeamDto): Promise<Team> {
   return this.prisma.team.update({
     where: { id },
     data,
